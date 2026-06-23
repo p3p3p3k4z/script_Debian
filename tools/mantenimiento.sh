@@ -1,12 +1,12 @@
 #!/bin/bash
-# Script de Mantenimiento Personal con Menú Interactivo y Selección de Borrado.
+# Script de Mantenimiento Personal con Menu Interactivo y Seleccion de Borrado.
 
 set -u
 
 # --- Funciones de Utilidad ---
 die(){ echo "ERROR: $*" >&2; exit 1; }
 
-# --- Función de check_space (Solo Listar y Guardar Top 15) ---
+# --- Funcion de check_space (Solo Listar y Guardar Top 15) ---
 check_space() {
     local threshold_mb="${1:-100}"
     
@@ -28,7 +28,7 @@ check_space() {
             sz=$(echo "$line" | cut -f1)
             path=$(echo "$line" | cut -f2)
             
-            # Formateo legible (usando awk solo para presentación)
+            # Formateo legible (usando awk solo para presentacion)
             formatted_line=$(echo "$sz $path" | awk '{
                 sz=$1; path=$2;
                 unit="B";
@@ -44,7 +44,7 @@ check_space() {
             ((i++))
         done
 
-    # Exporta los archivos encontrados para que el menú los use
+    # Exporta los archivos encontrados para que el menu los use
     printf "%s\n" "${top_files[@]}" > /tmp/maintenance_top_files.tmp
     
     echo
@@ -53,7 +53,7 @@ check_space() {
     echo
 }
 
-# --- Función de old_files (Solo Listar y Guardar) ---
+# --- Funcion de old_files (Solo Listar y Guardar) ---
 old_files() {
     local days="${1:-60}"
     local dir="${2:-}"
@@ -76,20 +76,20 @@ old_files() {
     local i=1
     local old_files_list=()
 
-    # Buscar archivos antiguos e imprimir con un índice para selección
+    # Buscar archivos antiguos e imprimir con un indice para seleccion
     find "$dir" -type f -mtime +"$days" -print | while read -r file; do
         printf "%s) %s\n" "$i" "$file"
         old_files_list+=("$file")
         ((i++))
     done
     
-    # Exporta los archivos encontrados para que el menú los use
+    # Exporta los archivos encontrados para que el menu los use
     printf "%s\n" "${old_files_list[@]}" > /tmp/maintenance_old_files.tmp
     
     echo
 }
 
-# --- Funciones del Menú Interactivo ---
+# --- Funciones del Menu Interactivo ---
 
 show_menu() {
     clear
@@ -108,7 +108,7 @@ read_option() {
     echo "$choice"
 }
 
-# --- Lógica Principal del Menú (Controlador) ---
+# --- Logica Principal del Menu (Controlador) ---
 
 main_loop() {
     while true; do

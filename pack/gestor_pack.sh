@@ -221,8 +221,8 @@ function limpiar_pack_opensuse() {
 }
 
 
-# --- Función principal de menú de paquetes (menu_pack) ---
-# Esta función actúa como un "router" que llama a la función específica de la distro.
+# --- Funcion principal de menu de paquetes (menu_pack) ---
+# Esta funcion actua como un "router" que llama a la funcion especifica de la distro.
 function menu_pack() {
     if [ -z "$DISTRO_FAMILY" ]; then
         echo "${colorRojo}Error: La distribución no ha sido detectada correctamente. Ejecuta el script principal.${finColor}"

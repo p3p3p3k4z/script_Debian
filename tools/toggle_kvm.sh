@@ -1,4 +1,7 @@
 #!/bin/bash
+source ./decorador/color.sh
+source ./decorador/pintor.sh
+source ./decorador/separador.sh
 
 KVM_BLACKLIST_FILE="/etc/modprobe.d/blacklist-kvm.conf"
 KVM_MODULES_COMMON="kvm"
@@ -105,12 +108,12 @@ disable_kvm_live() {
     sudo modprobe vboxnetflt 2>/dev/null
     sudo modprobe vboxnetadp 2>/dev/null
     
-    # Intentamos reiniciar el servicio oficial para verificar que todo esté en orden
+    # Intentamos reiniciar el servicio oficial para verificar que todo este en orden
     if sudo systemctl restart vboxdrv.service 2>/dev/null; then
         echo -e "\n¡Listo! Módulos KVM removidos y VirtualBox activado con éxito."
     else
         echo -e "\nError al levantar el servicio de VirtualBox (vboxdrv.service)."
-        # Ejecutamos el diagnóstico para ver si es por culpa de Secure Boot
+        # Ejecutamos el diagnostico para ver si es por culpa de Secure Boot
         check_secure_boot_error
     fi
 }
@@ -136,12 +139,13 @@ enable_kvm_live() {
     echo -e "\n¡Listo! KVM vuelve a estar activo y disponible de inmediato."
 }
 
-# MENÚ PRINCIPAL
+# MENU PRINCIPAL
 function_kvm(){
     while true; do
-        echo "================================================="
-        echo "   Script de Gestión de Virtualizacion (Fedora)  "
-        echo "================================================="
+        clear
+        divisor turquesa
+        imprimir_color "turquesa" "\t   Script de Gestión de Virtualizacion (Fedora)  "
+        divisor turquesa
         echo " METODOS EN CALIENTE (Sin reiniciar):"
         echo "   1. Activar VirtualBox (Apagar KVM ahora)"
         echo "   2. Restaurar KVM nativo (Apagar VirtualBox ahora)"

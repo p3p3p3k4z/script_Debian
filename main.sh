@@ -1,26 +1,24 @@
 #! /bin/bash
 
-# --- Decoradores y utilidades ---
 source decorador/color.sh
+source decorador/pintor.sh
 source decorador/dibujo_cafe.sh
 source decorador/dibujo_gato.sh
 source decorador/separador.sh
 
-# --- Documentación e Información ---
-source docs/info.sh
-
-# --- Paquetes y Gestores ---
 source pack/paquetes.sh
 source pack/install_pack.sh
 source pack/gestor_pack.sh
 source pack/menu_pack.sh 
 
-# --- Tools ---
-source tools/toggle_kvm.sh
+source tools/menu_tools.sh
+source rust_cli/rust_tools.sh
+
+source docs/info.sh
 
 # --- Funciones Generales ---
 function version(){
-    echo -e "\t\tVersion 3.0"
+    echo -e "\t\tVersion 4.0"
     echo -e "\t\t\tRealizado por p3p3p4k4z ^^\n"
     gatito2
     }
@@ -42,7 +40,6 @@ mostrar_ayuda() {
   exit 0
 }
 
-# --- Detección de Distribución ---
 # Esta función detecta la familia de la distribución y exporta DISTRO_FAMILY y OS_ID.
 detect_distro() {
     DISTRO_FAMILY=""
@@ -89,21 +86,21 @@ detect_distro() {
     export OS_ID
 }
 
-# --- Menús Específicos por Distribución ---
-
 mostrar_menu_debian() {
     while true; do
         clear
-        divisor
-        echo -e "\t\t        - - - MENÚ DEBIAN/DERIVADAS - - -"
-        echo -e "\t\t1- Inicio básico para nueva PC"
-        echo -e "\t\t2- Gestor de paquetes (APT)"
-        echo -e "\t\t3- Instalar paquetes específicos"
-        echo -e "\t\t4- Escritorio BSPWM (¡SOLO PARA DEBIAN!)"
-        echo -e "\t\t5- Comandos generales de LINUX"
-        echo -e "\t\t6- Comandos para GIT"
-        echo -e "\t\t0- Volver al menú principal / Salir"
-        divisor
+        divisor rojo
+        imprimir_color "rojo" "\t\t        - - - MENÚ DEBIAN/DERIVADAS - - -"
+        imprimir_color "rojo" "\t\t1- Inicio básico para nueva PC"
+        imprimir_color "rojo" "\t\t2- Gestor de paquetes (APT)"
+        imprimir_color "rojo" "\t\t3- Instalar paquetes específicos"
+        imprimir_color "rojo" "\t\t4- Escritorio BSPWM (¡SOLO PARA DEBIAN!)"
+        imprimir_color "rojo" "\t\t5- Comandos generales de LINUX"
+        imprimir_color "rojo" "\t\t6- Comandos para GIT"
+        imprimir_color "rojo" "\t\t7- Herramientas CLI modernas (Rust)"
+        imprimir_color "rojo" "\t\t8- Herramientas Avanzadas y Utilidades (Tools)"
+        imprimir_color "rojo" "\t\t0- Volver al menú principal / Salir"
+        divisor rojo
         echo -e "${colorGris}Teclea una opción${finColor}";read op_debian
 
         case $op_debian in
@@ -117,6 +114,8 @@ mostrar_menu_debian() {
             6)  divisor; echo -e "\tRECUERDA CUANDO TERMINES DE LEER PRESIONA Q PARA SALIR"; divisor
                 gatitoFin2; sleep 3; leer_git;
                 ;;
+            7) instalar_rust_cli;;
+            8) mostrar_menu_tools;;
             0) break;; 
             *) echo -e "${colorRojo}Opción no válida para Debian/Derivadas.${finColor}\n\n";;
         esac
@@ -128,18 +127,20 @@ mostrar_menu_debian() {
 mostrar_menu_fedora() {
     while true; do
         clear
-        divisor
-        echo -e "\t\t        - - - MENÚ FEDORA/DERIVADAS - - -"
-        echo -e "\t\t1- Inicio básico para nueva PC"
-        echo -e "\t\t2- Gestor de paquetes (DNF)"
-        echo -e "\t\t3- Instalar paquetes específicos"
-        echo -e "\t\t4- Configurar RPM Fusion (repositorios adicionales)"
-        echo -e "\t\t5- Comandos generales de LINUX"
-        echo -e "\t\t6- Comandos para GIT"
-		echo -e "\t\t7- ESCRITORIO HYPERLAND"
-        echo -e "\t\t8- Activar o Desactivar KVM"
-        echo -e "\t\t0- Volver al menú principal / Salir"
-        divisor
+        divisor azul
+        imprimir_color "azul" "\t\t        - - - MENÚ FEDORA/DERIVADAS - - -"
+        imprimir_color "azul" "\t\t1- Inicio básico para nueva PC"
+        imprimir_color "azul" "\t\t2- Gestor de paquetes (DNF)"
+        imprimir_color "azul" "\t\t3- Instalar paquetes específicos"
+        imprimir_color "azul" "\t\t4- Configurar RPM Fusion (repositorios adicionales)"
+        imprimir_color "azul" "\t\t5- Comandos generales de LINUX"
+        imprimir_color "azul" "\t\t6- Comandos para GIT"
+		imprimir_color "azul" "\t\t7- ESCRITORIO HYPERLAND"
+        imprimir_color "azul" "\t\t8- Activar o Desactivar KVM"
+        imprimir_color "azul" "\t\t9- Herramientas CLI modernas (Rust)"
+        imprimir_color "azul" "\t\t10- Herramientas Avanzadas y Utilidades (Tools)"
+        imprimir_color "azul" "\t\t0- Volver al menú principal / Salir"
+        divisor azul
         echo -e "${colorGris}Teclea una opción${finColor}";read op_fedora
 
         case $op_fedora in
@@ -148,7 +149,7 @@ mostrar_menu_fedora() {
             3) menu_instalar;;
             4)
                 echo "Configurando repositorios RPM Fusion..."
-                # Asegúrate de tener 'rpm' instalado para usar 'rpm -E %fedora'.
+                # Se debe tener 'rpm' instalado para usar 'rpm -E %fedora'.
                 sudo dnf install -y "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm"
                 sudo dnf install -y "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
                 sudo dnf update --refresh
@@ -162,6 +163,8 @@ mostrar_menu_fedora() {
                 ;;
 			7) hyperland;;
             8) function_kvm;;
+            9) instalar_rust_cli;;
+            10) mostrar_menu_tools;;
             0) break;;
             *) echo -e "${colorRojo}Opción no válida para Fedora/Derivadas.${finColor}\n\n";;
         esac
@@ -173,16 +176,18 @@ mostrar_menu_fedora() {
 mostrar_menu_opensuse() {
     while true; do
         clear
-        divisor
-        echo -e "\t\t        - - - MENÚ OPENSUSE/DERIVADAS - - -"
-        echo -e "\t\t1- Inicio básico para nueva PC"
-        echo -e "\t\t2- Gestor de paquetes (ZYPPER)"
-        echo -e "\t\t3- Instalar paquetes específicos"
-        echo -e "\t\t4- Configurar Packman (repositorios multimedia)"
-        echo -e "\t\t5- Comandos generales de LINUX"
-        echo -e "\t\t6- Comandos para GIT"
-        echo -e "\t\t0- Volver al menú principal / Salir"
-        divisor
+        divisor verde
+        imprimir_color "verde" "\t\t        - - - MENÚ OPENSUSE/DERIVADAS - - -"
+        imprimir_color "verde" "\t\t1- Inicio básico para nueva PC"
+        imprimir_color "verde" "\t\t2- Gestor de paquetes (ZYPPER)"
+        imprimir_color "verde" "\t\t3- Instalar paquetes específicos"
+        imprimir_color "verde" "\t\t4- Configurar Packman (repositorios multimedia)"
+        imprimir_color "verde" "\t\t5- Comandos generales de LINUX"
+        imprimir_color "verde" "\t\t6- Comandos para GIT"
+        imprimir_color "verde" "\t\t7- Herramientas CLI modernas (Rust)"
+        imprimir_color "verde" "\t\t8- Herramientas Avanzadas y Utilidades (Tools)"
+        imprimir_color "verde" "\t\t0- Volver al menú principal / Salir"
+        divisor verde
         echo -e "${colorGris}Teclea una opción${finColor}";read op_opensuse
 
         case $op_opensuse in
@@ -191,7 +196,7 @@ mostrar_menu_opensuse() {
             3) menu_instalar;; 
             4)
                 echo "Configurando repositorios Packman..."
-                # Se usa grep/cut/tr para obtener la VERSION_ID, que es más robusta.
+                # Se usa grep/cut/tr para obtener la VERSION_ID
                 local opensuse_version=$(grep VERSION_ID /etc/os-release | cut -d'=' -f2 | tr -d '"')
                 sudo zypper addrepo -cfp 90 "https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Leap_${opensuse_version}/" packman
                 sudo zypper refresh
@@ -204,6 +209,8 @@ mostrar_menu_opensuse() {
             6)  divisor; echo -e "\tRECUERDA CUANDO TERMINES DE LEER PRESIONA Q PARA SALIR"; divisor
                 gatitoFin2; sleep 3; leer_git;
                 ;;
+            7) instalar_rust_cli;;
+            8) mostrar_menu_tools;;
             0) break;;
             *) echo -e "${colorRojo}Opción no válida para OpenSUSE/Derivadas.${finColor}\n\n";;
         esac
@@ -212,7 +219,7 @@ mostrar_menu_opensuse() {
     done
 }
 
-# --- Gestión de Argumentos de Línea de Comandos (antes de la lógica principal) ---
+# Aqui es el main, se gestionan los comandos
 if [[ "$1" == "--help" ]]; then
   mostrar_ayuda;
 fi
@@ -229,7 +236,7 @@ if [[ "$1" == "--install" ]]; then
       exit 1
   fi
   nueva_pc;
-  exit 0 # Salir después de la instalación automática
+  exit 0
 fi
 
 trap ctrl_c SIGINT

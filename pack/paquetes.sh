@@ -4,7 +4,7 @@ export paquete_inicial_debian=("curl" "git" "neofetch" "htop" "gufw" "xinput" "t
 export paquete_inicial_fedora=("curl" "git" "fastfetch" "htop" "firewalld" "tree" "dnf-plugins-core" "btop" "net-tools") # firewalld es la alternativa a gufw, xinput está en xorg-x11-server-utils
 export paquete_inicial_opensuse=("curl" "git" "fastfetch" "htop" "firewalld" "tree" "btop" "net-tools" "xinput" ) 
 
-# --- Funciones de Instalación Base por Distro ---
+# --- Funciones de Instalacion Base por Distro ---
 
 function inicio_debian() {
     echo -e "\nIniciando configuración básica para Debian/Derivadas..."
@@ -32,7 +32,7 @@ function inicio_opensuse() {
     echo "Configuración inicial de OpenSUSE/Derivadas completada."
 }
 
-# --- Función para instalar paquetes básicos (rutina instalar_basico) ---
+# --- Funcion para instalar paquetes basicos (rutina instalar_basico) ---
 
 function instalar_basico_debian() {
     echo -e "\nInstalando paquetes básicos para Debian/Derivadas..."
@@ -44,7 +44,7 @@ function instalar_basico_debian() {
             sudo apt install -y "$pack"
         fi
     done
-    # Instalar nala y aptitude si no están, ya que se usan en otras funciones Debian
+    # Instalar nala y aptitude si no estan, ya que se usan en otras funciones Debian
     if ! dpkg -s nala &> /dev/null; then sudo apt install -y nala; fi
     if ! dpkg -s aptitude &> /dev/null; then sudo apt install -y aptitude; fi
 }
@@ -73,7 +73,7 @@ function instalar_basico_opensuse() {
     done
 }
 
-# --- Lenguajes de Programación ---
+# --- Lenguajes de Programacion ---
 
 function f_c_debian() {
     echo "Instalando herramientas C/C++ para Debian/Derivadas..."
@@ -113,7 +113,7 @@ function f_python_fedora() {
 }
 function f_python_opensuse() {
     echo "Instalando Python y módulos para OpenSUSE/Derivadas..."
-    # Nombres de paquetes en OpenSUSE también pueden variar
+    # Nombres de paquetes en OpenSUSE tambien pueden variar
     sudo zypper install -y python3-devel python3-pip python3-psutil python3-setuptools python3-PyQt5 python3-tk python3-pygame 
 }
 
@@ -134,7 +134,7 @@ function f_media_opensuse() {
     sudo zypper install -y vlc mpv
 }
 
-# --- Diseño ---
+# --- Diseno ---
 
 function f_diseno_debian(){
 	sudo apt install -y krita blender gimp
@@ -176,9 +176,9 @@ function f_pfetch() {
     #echo "Intentando instalar pfetch..."
     
     if command -v pfetch > /dev/null; then
-       # echo "pfetch ya está instalado en el sistema. Ejecutando..."
+       # echo "pfetch ya esta instalado en el sistema. Ejecutando..."
         pfetch
-       # echo "Fin de la función f_pfetch."
+       # echo "Fin de la funcion f_pfetch."
         return 0 # Indica éxito y termina la función
     fi
 
@@ -187,7 +187,7 @@ function f_pfetch() {
         rm -rf pfetch
     fi
 
-    # Esta variable nos ayudará a saber si la instalación fue exitosa
+    # Esta variable nos ayudara a saber si la instalacion fue exitosa
     local INSTALL_SUCCESS=0
     
     git clone https://github.com/dylanaraps/pfetch.git && \
@@ -199,7 +199,7 @@ function f_pfetch() {
     )
     
     # -------------------------------------------------------------
-    # Ejecución o Manejo de error
+    # Ejecucion o Manejo de error
     # -------------------------------------------------------------
     
     if [ "$INSTALL_SUCCESS" -eq 1 ]; then
@@ -229,11 +229,11 @@ function f_pfetch() {
 # --- Wine ---
 
 # Las funciones _test no se necesitan en esta estructura, el gestor de paquetes ya maneja la existencia.
-# Solo dejaremos la función de instalación.
+# Solo dejaremos la funcion de instalacion.
 
 function f_wine_debian() {
     echo "Instalando Wine para Debian/Derivadas..."
-    # Pasos específicos para Debian:
+    # Pasos especificos para Debian:
     sudo dpkg --add-architecture i386
     sudo apt update
     wget -nc https://dl.winehq.org/wine-builds/winehq.key
@@ -244,15 +244,15 @@ function f_wine_debian() {
 
 function f_wine_fedora() {
     echo "Instalando Wine para Fedora/Derivadas..."
-    # Pasos específicos para Fedora:
+    # Pasos especificos para Fedora:
     sudo dnf install -y wine
-    # Para la versión de WineHQ (más reciente), los pasos son más complejos, puedes añadir un enlace o una nota
+    # Para la version de WineHQ (mas reciente), los pasos son mas complejos, puedes anadir un enlace o una nota
     echo "Ya puedes usar wine. Solo ejecutalo en tu consola: wine app.exe"
 }
 
 function f_wine_opensuse() {
     echo "Instalando Wine para OpenSUSE/Derivadas..."
-    # Pasos específicos para OpenSUSE:
+    # Pasos especificos para OpenSUSE:
     sudo zypper addrepo https://download.opensuse.org/repositories/Emulators:/Wine/openSUSE_Leap_$(grep VERSION_ID /etc/os-release | cut -d'=' -f2 | tr -d '"')/ WineHQ
     sudo zypper refresh
     sudo zypper install -y wine

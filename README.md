@@ -31,10 +31,20 @@ El script incluye opciones para instalar rápidamente tus herramientas de desarr
 
 ---
 
+### Requisitos Previos
+Para poder utilizar el script, asegúrate de tener `git` y `make` instalados en tu sistema.
+
 ### ¿Cómo usarlo?
-Para empezar a usar el script, simplemente clona este repositorio, abre tu terminal y ejecuta el comando `make run`.
+Para empezar a usar el script, abre tu terminal y ejecuta los siguientes comandos:
 
 ```bash
+# Clonar el repositorio
+git clone https://github.com/tu-usuario/script_linux.git
+
+# Entrar al directorio
+cd script_linux
+
+# Ejecutar el script
 make run
 ```
 
@@ -42,6 +52,10 @@ make run
 
 ![preview](inicio.png)
 
-Por el momento no planeo agregar mas funcionalidades a este programa, mas que el de instalar paquetes o herramientas (ultimamente que encontrado buenas herramientas CLI en rust y dotfiles que podria añadir).
+### Roadmap
+Aunque este miniproyecto nació como una práctica personal para aplicar conocimientos de Bash, estoy considerando añadir en el futuro:
+* Integración de herramientas CLI modernas escritas en Rust (como `bat`, `eza`, `fd`, etc.).
+* Automatización y configuración de Dotfiles.
 
-Este miniproyecto que solo me sirvio como practica para los conocimientos que adquiri sobre bash.
+### Licencia
+Este proyecto es de uso libre. Eres libre de usarlo, modificarlo y distribuirlo según tus necesidades.
