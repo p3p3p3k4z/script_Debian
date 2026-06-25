@@ -42,7 +42,7 @@ else
 fi
 
 # 3. Limpieza de Flatpak (si existe)
-echo -e "${colorAmarillo}[3/4] Limpiando runtimes huérfanos de Flatpak...${finColor}"
+echo -e "${colorAmarillo}[3/5] Limpiando runtimes huérfanos de Flatpak...${finColor}"
 if command -v flatpak &> /dev/null; then
     flatpak uninstall --unused -y
     echo -e "${colorVerde}[V] Flatpak optimizado.${finColor}\n"
@@ -50,8 +50,20 @@ else
     echo -e "${colorAzul}[i] Flatpak no está instalado. Omitiendo.${finColor}\n"
 fi
 
-# 4. Limpieza de cache de usuario (Thumbnails)
-echo -e "${colorAmarillo}[4/4] Limpiando caché de miniaturas de imágenes del usuario...${finColor}"
+# 4. Limpieza de Snap (si existe)
+echo -e "${colorAmarillo}[4/5] Limpiando versiones antiguas de paquetes Snap...${finColor}"
+if command -v snap &> /dev/null; then
+    # Retiene solo la versión más reciente de cada snap
+    snap list all | awk '/disabled/{print $1, $3}' | while read snapname revision; do
+        snap remove "$snapname" --revision="$revision"
+    done
+    echo -e "${colorVerde}[V] Snap optimizado.${finColor}\n"
+else
+    echo -e "${colorAzul}[i] Snap no está instalado. Omitiendo.${finColor}\n"
+fi
+
+# 5. Limpieza de cache de usuario (Thumbnails)
+echo -e "${colorAmarillo}[5/5] Limpiando caché de miniaturas de imágenes del usuario...${finColor}"
 # Ya que corremos como root, necesitamos encontrar la carpeta de cache real del usuario que lanzo sudo
 if [[ -n "${SUDO_USER:-}" ]]; then
     USER_HOME=$(eval echo "~$SUDO_USER")

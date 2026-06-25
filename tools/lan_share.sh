@@ -4,22 +4,18 @@
 
 set -euo pipefail
 
-source ./decorador/color.sh
+source ./decorador/pintor.sh
+source ./decorador/separador.sh
+source ./pack/gestor_pack.sh
 
 if ! command -v python3 &> /dev/null; then
-    echo -e "${colorRojo}[!] Error: python3 es requerido para crear el servidor web.${finColor}"
+    imprimir_color "rojo" "[!] Error: python3 es requerido para crear el servidor web."
     exit 1
 fi
 
 if ! command -v qrencode &> /dev/null; then
-    echo -e "${colorAmarillo}[!] 'qrencode' no está instalado. Intentando instalar...${finColor}"
-    if command -v apt &> /dev/null; then sudo apt install -y qrencode
-    elif command -v dnf &> /dev/null; then sudo dnf install -y qrencode
-    elif command -v zypper &> /dev/null; then sudo zypper in -y qrencode
-    else
-        echo -e "${colorRojo}[!] No se pudo instalar qrencode automáticamente. Instálalo manualmente.${finColor}"
-        exit 1
-    fi
+    imprimir_color "amarillo" "[!] 'qrencode' no está instalado. Intentando instalar..."
+    instalar_paquetes "qrencode"
 fi
 
 if [[ $# -eq 0 ]]; then

@@ -220,15 +220,15 @@ mostrar_menu_opensuse() {
 }
 
 # Aqui es el main, se gestionan los comandos
-if [[ "$1" == "--help" ]]; then
+if [[ "${1:-}" == "--help" ]]; then
   mostrar_ayuda;
 fi
 
-if [[ "$1" == "--version" ]]; then
+if [[ "${1:-}" == "--version" ]]; then
   version;
 fi
 
-if [[ "$1" == "--install" ]]; then
+if [[ "${1:-}" == "--install" ]]; then
   # Para --install, primero necesitamos detectar la distro para que 'nueva_pc' funcione correctamente
   detect_distro
   if [ "$DISTRO_FAMILY" == "unknown" ]; then

@@ -294,3 +294,19 @@ function menu_pack() {
         read -n 1
     done
 }
+
+# --- Funcion Universal de Instalacion ---
+function instalar_paquetes() {
+    # Uso: instalar_paquetes "pkg_debian" "pkg_fedora" "pkg_suse"
+    local pkg_deb="${1}"
+    local pkg_fed="${2:-$1}"
+    local pkg_sus="${3:-${2:-$1}}"
+
+    if command -v apt &>/dev/null; then
+        sudo apt install -y $pkg_deb >/dev/null || true
+    elif command -v dnf &>/dev/null; then
+        sudo dnf install -y $pkg_fed >/dev/null || true
+    elif command -v zypper &>/dev/null; then
+        sudo zypper install -y $pkg_sus >/dev/null || true
+    fi
+}
